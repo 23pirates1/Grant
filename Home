@@ -1,1 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lightframe Photography</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 
+    <!-- CSS STYLE -->
+    <style>
+      :root {
+  --background: #0b0c10;
+  --foreground: #f7f7f2;
+  --muted: #c8c8c1;
+  --accent: #f2a900;
+  --card: rgba(255, 255, 255, 0.04);
+  --border: rgba(255, 255, 255, 0.08);
+  --gradient: linear-gradient(135deg, rgba(242, 169, 0, 0.15), rgba(255, 255, 255, 0.05));
+  --shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  --radius: 20px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+.top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 5vw;
+  background: rgba(11, 12, 16, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.logo-space {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  min-width: 120px;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  font-family: 'Playfair Display', 'Times New Roman', serif;
+  font-size: 20px;
+  letter-spacing: 0.6px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+  font-weight: 600;
+}
+
+.nav-links a {
+  padding: 8px 10px;
+  border-radius: 8px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.nav-links a:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--foreground);
+}
+
+main {
+  padding: 40px 5vw 72px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 32px;
+  padding: 54px;
+  margin: 16px 0 32px;
+  border-radius: 28px;
+  background: radial-gradient(circle at 20% 20%, rgba(242, 169, 0, 0.22), transparent 30%),
+              radial-gradient(circle at 80% 10%, rgba(255, 255, 255, 0.12), transparent 35%),
+              var(--card);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.hero-content h1 {
+  font-family: 'Playfair Display', 'Times New Roman', serif;
+  font-weight: 700;
+  font-size: clamp(34px, 5vw, 52px);
+  line-height: 1.1;
+  margin: 12px 0;
+}
+
+.hero-content .lede {
+  color: var(--muted);
+  max-width: 640px;
+  font-size: 18px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  align-self: center;
+}
+
+.stat {
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+}
+
+.stat-number {
+  display: block;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.stat-label {
+  color: var(--muted);
+}
+
+.section {
+  margin: 64px 0;
+}
+
+.section-header {
+  max-width: 860px;
+  margin-bottom: 28px;
+}
+
+.section-header h2 {
+  font-family: 'Playfair Display', 'Times New Roman', serif;
+  font-size: clamp(28px, 4vw, 42px);
+  margin: 8px 0 12px;
+}
+
+.section-description {
+  color: var(--muted);
+}
+
+.eyebrow {
+  color: var(--accent);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 12px;
+  margin: 0;
+}
+
+.about-grid,
+.gallery-grid,
+.pricing-grid,
+.contact-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.card,
+.gallery-card,
+.pricing-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+}
+
+.card h3,
+.gallery-card h3,
+.pricing-card h3 {
+  margin-top: 0;
+  font-size: 20px;
+}
+
+.card p,
+.gallery-card p,
+.pricing-card p {
+  color: var(--muted);
+}
+
+.gallery-card .image-placeholder {
+  aspect-ratio: 4 / 3;
+  border-radius: 14px;
+  background: var(--gradient);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin-bottom: 10px;
+}
+
+.pricing {
+  position: relative;
+}
+
+.pricing::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 32px;
+  background: radial-gradient(circle at 40% 20%, rgba(242, 169, 0, 0.14), transparent 40%);
+  filter: blur(40px);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.pricing-grid {
+  position: relative;
+  z-index: 1;
+}
+
+.pricing-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.pricing-card .badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #0b0c10;
+  font-weight: 800;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+}
+
+.price {
+  font-size: 32px;
+  margin: 6px 0 14px;
+  font-weight: 700;
+}
+
+.pricing-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px;
+  color: var(--muted);
+}
+
+.pricing-card li + li {
+  margin-top: 8px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border: 1px solid var(--border);
+  transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.button.primary {
+  background: var(--accent);
+  color: #0b0c10;
+  border-color: rgba(0, 0, 0, 0.12);
+  box-shadow: 0 16px 40px rgba(242, 169, 0, 0.35);
+}
+
+.button.ghost {
+  background: transparent;
+  color: var(--foreground);
+}
+
+.button.full {
+  width: 100%;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+.contact-grid .card {
+  min-height: 150px;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 32px 0 40px;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+  background: rgba(11, 12, 16, 0.8);
+}
+
+@media (max-width: 700px) {
+  .top-bar {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .nav-links {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .hero {
+    padding: 32px;
+  }
+}
+    </style>
+</head>
+
+<body>
+  <header class="top-bar">
+    <div class="logo-space" aria-label="Logo placeholder">Lightframe</div>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="#contact">Contact</a>
+      <a href="#about">About Us</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#pricing">Pricing</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <p class="eyebrow">Award-winning photography studio</p>
+        <h1>Capturing the moments that matter most.</h1>
+        <p class="lede">From intimate portraits to grand celebrations, we craft timeless stories with light, color, and emotion.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#gallery">View portfolio</a>
+          <a class="button ghost" href="#pricing">See pricing</a>
+        </div>
+      </div>
+      <div class="hero-stats" aria-label="Studio highlights">
+        <div class="stat">
+          <span class="stat-number">400+</span>
+          <span class="stat-label">Sessions each year</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number">4.9★</span>
+          <span class="stat-label">Client satisfaction</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number">18</span>
+          <span class="stat-label">Awards & features</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section about">
+      <div class="section-header">
+        <p class="eyebrow">Our philosophy</p>
+        <h2>Photography that feels authentic and intentional.</h2>
+        <p class="section-description">We believe your story deserves to be told with care. Our team blends documentary-style candor with editorial polish to create images you will revisit for a lifetime.</p>
+      </div>
+      <div class="about-grid">
+        <div class="card">
+          <h3>Human connection</h3>
+          <p>We start by listening—learning your vision, your pace, and the details that matter most to you.</p>
+        </div>
+        <div class="card">
+          <h3>Artful direction</h3>
+          <p>Thoughtful posing and gentle guidance help you feel comfortable while keeping the moment natural.</p>
+        </div>
+        <div class="card">
+          <h3>Signature editing</h3>
+          <p>Our refined color grading keeps skin tones true-to-life and scenery luminous, never overdone.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="gallery" class="section gallery">
+      <div class="section-header">
+        <p class="eyebrow">Gallery preview</p>
+        <h2>A glimpse into our recent stories.</h2>
+        <p class="section-description">Portraits, weddings, lifestyle, and brand sessions—curated to show the breadth of our craft.</p>
+      </div>
+      <div class="gallery-grid" role="list">
+        <div class="gallery-card" role="listitem">
+          <div class="image-placeholder">Portrait session</div>
+          <p>Moody studio lighting with crisp, modern styling.</p>
+        </div>
+        <div class="gallery-card" role="listitem">
+          <div class="image-placeholder">Wedding</div>
+          <p>Golden-hour vows framed with elegant candids.</p>
+        </div>
+        <div class="gallery-card" role="listitem">
+          <div class="image-placeholder">Lifestyle</div>
+          <p>Real moments at home, celebrating simple joys.</p>
+        </div>
+        <div class="gallery-card" role="listitem">
+          <div class="image-placeholder">Brand</div>
+          <p>Clean visuals crafted for founders and creatives.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing" class="section pricing">
+      <div class="section-header">
+        <p class="eyebrow">Pricing highlights</p>
+        <h2>Transparent collections for every story.</h2>
+        <p class="section-description">Choose the experience that fits your day. Each collection includes planning support and artist-led retouching.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="badge">Popular</div>
+          <h3>Signature</h3>
+          <p class="price">$1,200</p>
+          <ul>
+            <li>3-hour session</li>
+            <li>Location scouting & wardrobe guide</li>
+            <li>40 retouched images</li>
+          </ul>
+          <a class="button full" href="#contact">Book now</a>
+        </div>
+        <div class="pricing-card">
+          <h3>Mini</h3>
+          <p class="price">$550</p>
+          <ul>
+            <li>60-minute session</li>
+            <li>One location</li>
+            <li>15 retouched images</li>
+          </ul>
+          <a class="button ghost full" href="#contact">Check availability</a>
+        </div>
+        <div class="pricing-card">
+          <h3>Editorial</h3>
+          <p class="price">Custom</p>
+          <ul>
+            <li>Half-day or full-day production</li>
+            <li>Creative direction & styling</li>
+            <li>Commercial licensing included</li>
+          </ul>
+          <a class="button ghost full" href="#contact">Start a brief</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section contact">
+      <div class="section-header">
+        <p class="eyebrow">Let’s talk</p>
+        <h2>Ready to craft your session?</h2>
+        <p class="section-description">Tell us what you’re dreaming of—we’ll respond within one business day with next steps.</p>
+      </div>
+      <div class="contact-grid">
+        <div class="card">
+          <h3>Studio hours</h3>
+          <p>Monday–Friday, 9am–6pm</p>
+          <p>Weekend sessions by appointment.</p>
+        </div>
+        <div class="card">
+          <h3>Reach out</h3>
+          <p>Email: hello@lightframe.studio</p>
+          <p>Phone: (555) 123-4567</p>
+        </div>
+        <div class="card">
+          <h3>Visit</h3>
+          <p>241 Harbor Ave, Suite 3B</p>
+          <p>Portland, OR</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="logo-space">Lightframe</div>
+    <p>Timeless imagery for the moments that deserve to be remembered.</p>
+  </footer>
+</body>
+</html>
