@@ -11,16 +11,19 @@
 
     <!-- CSS STYLE -->
     <style>
-      :root {
-  --background: #0b0c10;
-  --foreground: #f7f7f2;
-  --muted: #c8c8c1;
-  --accent: #f2a900;
-  --card: rgba(255, 255, 255, 0.04);
-  --border: rgba(255, 255, 255, 0.08);
-  --gradient: linear-gradient(135deg, rgba(242, 169, 0, 0.15), rgba(255, 255, 255, 0.05));
-  --shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
-  --radius: 20px;
+   :root {
+  --background: #050608;
+  --background-2: #0b0d11;
+  --surface: #0f1219;
+  --panel: rgba(255, 255, 255, 0.04);
+  --foreground: #f5f7fb;
+  --muted: #b9bed0;
+  --accent: #fbd38d;
+  --accent-2: #7ae7c7;
+  --accent-3: #6ba7ff;
+  --border: rgba(255, 255, 255, 0.1);
+  --shadow: 0 20px 70px rgba(0, 0, 0, 0.48);
+  --radius: 18px;
 }
 
 * {
@@ -29,9 +32,12 @@
 
 body {
   margin: 0;
-  background: var(--background);
+  background: radial-gradient(circle at 20% 30%, rgba(122, 231, 199, 0.1), transparent 30%),
+    radial-gradient(circle at 82% 15%, rgba(251, 211, 141, 0.12), transparent 36%),
+    radial-gradient(circle at 50% 92%, rgba(107, 167, 255, 0.12), transparent 36%),
+    linear-gradient(140deg, var(--background), var(--background-2));
   color: var(--foreground);
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
   line-height: 1.6;
   min-height: 100vh;
 }
@@ -52,98 +58,223 @@ a:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 18px 5vw;
-  background: rgba(11, 12, 16, 0.92);
+  padding: 14px 5vw;
+  background: linear-gradient(120deg, rgba(11, 13, 17, 0.9), rgba(7, 9, 12, 0.9));
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
+  box-shadow: 0 10px 38px rgba(0, 0, 0, 0.38);
 }
 
 .logo-space {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 16px;
+  padding: 10px 14px;
   min-width: 120px;
   border: 1px dashed var(--border);
+  border-radius: 14px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  background: linear-gradient(135deg, rgba(251, 211, 141, 0.08), rgba(122, 231, 199, 0.08));
+  color: var(--foreground);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+}
+
+.nav-wrapper {
+  position: relative;
+}
+
+.menu-toggle {
+  display: inline-flex;
+  padding: 10px 14px;
   border-radius: 12px;
-  font-family: 'Playfair Display', 'Times New Roman', serif;
-  font-size: 20px;
-  letter-spacing: 0.6px;
+  border: 1px solid var(--border);
+  background: linear-gradient(120deg, rgba(251, 211, 141, 0.2), rgba(107, 167, 255, 0.16));
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--foreground);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+  align-items: center;
+  gap: 8px;
+}
+
+.menu-caret {
+  font-size: 14px;
+  opacity: 0.8;
+  transition: transform 0.2s ease;
 }
 
 .nav-links {
   display: flex;
-  gap: 20px;
-  font-weight: 600;
+  gap: 18px;
+  font-weight: 700;
+  align-items: center;
+  background: transparent;
+}
+
+.js-enabled .nav-links {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 12px);
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  min-width: 220px;
+  background: linear-gradient(160deg, rgba(12, 14, 20, 0.98), rgba(12, 14, 20, 0.86));
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  transform: translateY(-8px) scale(0.98);
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.js-enabled .nav-links.open {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.menu-toggle[aria-expanded="true"] .menu-caret {
+  transform: rotate(-180deg);
 }
 
 .nav-links a {
-  padding: 8px 10px;
-  border-radius: 8px;
-  transition: background 0.2s ease, color 0.2s ease;
+  padding: 10px 12px;
+  border-radius: 10px;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .nav-links a:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06);
   color: var(--foreground);
+  transform: translateY(-1px);
 }
 
 main {
-  padding: 40px 5vw 72px;
+  padding: 32px 5vw 72px;
 }
 
 .hero {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 32px;
-  padding: 54px;
+  gap: 28px;
+  padding: clamp(28px, 6vw, 50px);
   margin: 16px 0 32px;
-  border-radius: 28px;
-  background: radial-gradient(circle at 20% 20%, rgba(242, 169, 0, 0.22), transparent 30%),
-              radial-gradient(circle at 80% 10%, rgba(255, 255, 255, 0.12), transparent 35%),
-              var(--card);
+  border-radius: 26px;
+  background: linear-gradient(150deg, rgba(12, 14, 20, 0.8), rgba(12, 14, 20, 0.9)),
+    url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80') center/cover;
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  animation: floatUp 0.9s ease both;
+  backdrop-filter: blur(4px);
+}
+
+.hero-visual {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  min-height: 320px;
+  animation: slideIn 0.8s ease both 0.1s;
+}
+
+.hero-frame {
+  position: relative;
+  height: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+}
+
+.hero-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.04);
+  filter: saturate(1.12);
+  animation: panIn 14s ease-in-out infinite alternate;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(5, 6, 8, 0) 8%, rgba(5, 6, 8, 0.8));
+  animation: glowMove 5s ease-in-out infinite alternate;
+}
+
+.hero-pill {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: linear-gradient(120deg, rgba(251, 211, 141, 0.9), rgba(107, 167, 255, 0.85));
+  color: #0b0d14;
+  font-weight: 800;
+  box-shadow: 0 12px 32px rgba(91, 216, 255, 0.35);
+  animation: floatPulse 3.5s ease-in-out infinite;
+}
+
+.hero-burst {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 179, 71, 0.12), transparent 30%),
+    radial-gradient(circle at 80% 70%, rgba(185, 107, 255, 0.12), transparent 28%),
+    radial-gradient(circle at 50% 50%, rgba(91, 216, 255, 0.08), transparent 40%);
+  filter: blur(40px);
+  opacity: 0.8;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  animation: shimmer 12s ease-in-out infinite;
 }
 
 .hero-content h1 {
-  font-family: 'Playfair Display', 'Times New Roman', serif;
-  font-weight: 700;
-  font-size: clamp(34px, 5vw, 52px);
-  line-height: 1.1;
+  font-weight: 800;
+  font-size: clamp(30px, 6vw, 46px);
+  line-height: 1.08;
   margin: 12px 0;
 }
 
 .hero-content .lede {
   color: var(--muted);
-  max-width: 640px;
-  font-size: 18px;
+  max-width: 420px;
+  font-size: 16px;
 }
 
 .hero-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
-  margin-top: 24px;
+  margin-top: 18px;
 }
 
 .hero-stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 16px;
-  align-self: center;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 14px;
+  margin-top: 22px;
 }
 
 .stat {
-  padding: 16px;
-  border-radius: 16px;
-  background: var(--card);
+  padding: 14px;
+  border-radius: 14px;
+  background: var(--panel);
   border: 1px solid var(--border);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
 }
 
 .stat-number {
   display: block;
-  font-size: 26px;
-  font-weight: 700;
+  font-size: 24px;
+  font-weight: 800;
 }
 
 .stat-label {
@@ -151,27 +282,33 @@ main {
 }
 
 .section {
-  margin: 64px 0;
+  margin: 60px 0;
 }
 
 .section-header {
-  max-width: 860px;
-  margin-bottom: 28px;
+  max-width: 820px;
+  margin-bottom: 24px;
 }
 
 .section-header h2 {
-  font-family: 'Playfair Display', 'Times New Roman', serif;
-  font-size: clamp(28px, 4vw, 42px);
-  margin: 8px 0 12px;
+  font-size: clamp(26px, 5vw, 38px);
+  margin: 8px 0 10px;
+  letter-spacing: -0.02em;
+  text-shadow: 0 16px 34px rgba(0, 0, 0, 0.4);
+}
+
+.section-header h2 span {
+  color: var(--accent);
 }
 
 .section-description {
   color: var(--muted);
+  max-width: 580px;
 }
 
 .eyebrow {
-  color: var(--accent);
-  font-weight: 700;
+  color: var(--foreground);
+  font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   font-size: 12px;
@@ -183,57 +320,109 @@ main {
 .pricing-grid,
 .contact-grid {
   display: grid;
-  gap: 18px;
+  gap: 16px;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
 
 .card,
 .gallery-card,
-.pricing-card {
-  background: var(--card);
+.pricing-card,
+.contact-card,
+.contact-form {
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 18px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--shadow);
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+  animation: floatUp 0.9s ease both;
 }
 
 .card h3,
 .gallery-card h3,
-.pricing-card h3 {
+.pricing-card h3,
+.contact-card h3,
+.contact-form h3 {
   margin-top: 0;
   font-size: 20px;
+  letter-spacing: -0.01em;
 }
 
 .card p,
-.gallery-card p,
-.pricing-card p {
+.gallery-card figcaption,
+.pricing-card p,
+.contact-card p {
   color: var(--muted);
 }
 
-.gallery-card .image-placeholder {
-  aspect-ratio: 4 / 3;
-  border-radius: 14px;
-  background: var(--gradient);
-  display: grid;
-  place-items: center;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  margin-bottom: 10px;
+.gallery-card {
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+  isolation: isolate;
+}
+
+.gallery-card img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  aspect-ratio: 5 / 4;
+  transform: scale(1.02);
+  transition: transform 0.5s ease, filter 0.5s ease;
+}
+
+.gallery-card figcaption {
+  padding: 12px 14px;
+  font-weight: 600;
+  background: linear-gradient(180deg, rgba(19, 20, 29, 0) 0%, rgba(19, 20, 29, 0.9) 100%);
+  position: absolute;
+  inset: auto 0 0;
+}
+
+.gallery-card.wide {
+  grid-column: span 2;
+}
+
+.gallery-card.tall {
+  grid-row: span 2;
+}
+
+.gallery-grid {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-auto-rows: 200px;
+}
+
+.gallery-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 179, 71, 0.18), transparent 50%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.card:hover,
+.gallery-card:hover,
+.pricing-card:hover,
+.contact-card:hover,
+.contact-form:hover {
+  border-color: rgba(255, 179, 71, 0.45);
+  transform: translateY(-4px);
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.5);
+}
+
+.gallery-card:hover img {
+  transform: scale(1.06);
+  filter: saturate(1.08);
+}
+
+.gallery-card:hover::after {
+  opacity: 1;
 }
 
 .pricing {
   position: relative;
-}
-
-.pricing::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 32px;
-  background: radial-gradient(circle at 40% 20%, rgba(242, 169, 0, 0.14), transparent 40%);
-  filter: blur(40px);
-  opacity: 0.6;
-  pointer-events: none;
 }
 
 .pricing-grid {
@@ -248,32 +437,38 @@ main {
 
 .pricing-card .badge {
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: 14px;
+  right: 14px;
   padding: 6px 10px;
   border-radius: 999px;
-  background: var(--accent);
-  color: #0b0c10;
+  background: linear-gradient(120deg, var(--accent), var(--accent-2));
+  color: #0b0c12;
   font-weight: 800;
   font-size: 11px;
   letter-spacing: 0.1em;
 }
 
 .price {
-  font-size: 32px;
+  font-size: 30px;
   margin: 6px 0 14px;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .pricing-card ul {
   list-style: none;
   padding: 0;
-  margin: 0 0 20px;
+  margin: 0 0 18px;
   color: var(--muted);
 }
 
 .pricing-card li + li {
-  margin-top: 8px;
+  margin-top: 6px;
+}
+
+.pricing-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
 }
 
 .button {
@@ -283,22 +478,34 @@ main {
   gap: 6px;
   padding: 12px 16px;
   border-radius: 12px;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0.02em;
   border: 1px solid var(--border);
   transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
 }
 
 .button.primary {
-  background: var(--accent);
-  color: #0b0c10;
-  border-color: rgba(0, 0, 0, 0.12);
-  box-shadow: 0 16px 40px rgba(242, 169, 0, 0.35);
+  background: linear-gradient(120deg, var(--accent), var(--accent-2));
+  color: #0f1119;
+  border-color: transparent;
+  box-shadow: 0 16px 38px rgba(122, 231, 199, 0.35);
 }
 
 .button.ghost {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.06);
   color: var(--foreground);
+}
+
+.button.ghost:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.button.link {
+  background: transparent;
+  border: none;
+  color: var(--foreground);
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .button.full {
@@ -307,11 +514,54 @@ main {
 
 .button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 16px 28px rgba(0, 0, 0, 0.4);
 }
 
-.contact-grid .card {
-  min-height: 150px;
+.button.primary:hover {
+  box-shadow: 0 20px 40px rgba(122, 231, 199, 0.45);
+}
+
+.contact-section {
+  margin-top: 60px;
+}
+
+.contact-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+  align-items: start;
+}
+
+.contact-card {
+  height: 100%;
+}
+
+.contact-form {
+  display: grid;
+  gap: 12px;
+}
+
+.contact-form label {
+  font-weight: 700;
+  color: var(--foreground);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--foreground);
+  font-size: 16px;
+}
+
+.contact-form textarea {
+  min-height: 120px;
+  resize: vertical;
 }
 
 .footer {
@@ -322,184 +572,423 @@ main {
   padding: 32px 0 40px;
   color: var(--muted);
   border-top: 1px solid var(--border);
-  background: rgba(11, 12, 16, 0.8);
+  background: rgba(7, 9, 15, 0.95);
+  backdrop-filter: blur(8px);
 }
 
-@media (max-width: 700px) {
+@keyframes panIn {
+  from {
+    transform: scale(1.08) translateX(4%);
+  }
+  to {
+    transform: scale(1.02) translateX(-2%);
+  }
+}
+
+@keyframes floatUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes floatPulse {
+  0% {
+    transform: translateY(0);
+    box-shadow: 0 12px 32px rgba(91, 216, 255, 0.35);
+  }
+  50% {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(255, 179, 71, 0.35);
+  }
+  100% {
+    transform: translateY(0);
+    box-shadow: 0 12px 32px rgba(91, 216, 255, 0.35);
+  }
+}
+
+@keyframes shimmer {
+  from {
+    transform: translateY(-6px) scale(1);
+  }
+  to {
+    transform: translateY(6px) scale(1.04);
+  }
+}
+
+@keyframes glowMove {
+  from {
+    opacity: 0.72;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 900px) {
   .top-bar {
-    flex-direction: column;
-    gap: 10px;
-    align-items: flex-start;
+    gap: 12px;
+    align-items: center;
   }
 
   .nav-links {
+    width: min(340px, 92vw);
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px;
+  }
+
+  .js-enabled .nav-links {
+    display: none;
+  }
+
+  .js-enabled .nav-links.open {
+    display: flex;
+    position: absolute;
+    right: 0;
+    left: auto;
+  }
+
+  .nav-links a {
     width: 100%;
-    justify-content: space-between;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .nav-links a:hover {
+    background: rgba(255, 255, 255, 0.06);
+  }
+}
+
+@media (max-width: 640px) {
+  main {
+    padding: 22px 5vw 60px;
+  }
+
+  .section {
+    margin: 48px 0;
+  }
+
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: minmax(260px, 42vh);
+  }
+
+  .gallery-card.wide,
+  .gallery-card.tall {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+
+  .gallery-card img {
+    aspect-ratio: 3 / 4;
+  }
+
+  .card,
+  .gallery-card,
+  .pricing-card {
+    padding: 16px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
   }
 
   .hero {
-    padding: 32px;
+    background-position: center;
   }
 }
     </style>
 </head>
 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lightframe Photography</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
 <body>
   <header class="top-bar">
     <div class="logo-space" aria-label="Logo placeholder">Lightframe</div>
-    <nav class="nav-links" aria-label="Main navigation">
-      <a href="#contact">Contact</a>
-      <a href="#about">About Us</a>
-      <a href="#gallery">Gallery</a>
-      <a href="#pricing">Pricing</a>
-    </nav>
+    <div class="nav-wrapper">
+      <button class="menu-toggle" aria-expanded="false" aria-controls="main-nav">
+        <span class="menu-label">Menu</span>
+        <span class="menu-caret" aria-hidden="true">▾</span>
+      </button>
+      <nav id="main-nav" class="nav-links" aria-label="Main navigation">
+        <a href="#contact">Contact</a>
+        <a href="#about">About</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#pricing">Pricing</a>
+      </nav>
+    </div>
   </header>
 
   <main>
     <section class="hero">
       <div class="hero-content">
-        <p class="eyebrow">Award-winning photography studio</p>
-        <h1>Capturing the moments that matter most.</h1>
-        <p class="lede">From intimate portraits to grand celebrations, we craft timeless stories with light, color, and emotion.</p>
+        <p class="eyebrow">Lightframe Studio</p>
+        <h1>Images with bite.</h1>
+        <p class="lede">Minimal direction, cinematic light.</p>
         <div class="hero-actions">
-          <a class="button primary" href="#gallery">View portfolio</a>
-          <a class="button ghost" href="#pricing">See pricing</a>
+          <a class="button primary" href="#gallery">View work</a>
+          <a class="button ghost" href="#pricing">Pricing</a>
+        </div>
+        <div class="hero-stats" aria-label="Highlights">
+          <div class="stat">
+            <span class="stat-number">4.9★</span>
+            <span class="stat-label">Clients</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">400+</span>
+            <span class="stat-label">Sessions</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">18</span>
+            <span class="stat-label">Features</span>
+          </div>
         </div>
       </div>
-      <div class="hero-stats" aria-label="Studio highlights">
-        <div class="stat">
-          <span class="stat-number">400+</span>
-          <span class="stat-label">Sessions each year</span>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-frame">
+          <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1600&q=80" alt="Portrait photography" loading="lazy">
+          <div class="hero-overlay"></div>
         </div>
-        <div class="stat">
-          <span class="stat-number">4.9★</span>
-          <span class="stat-label">Client satisfaction</span>
-        </div>
-        <div class="stat">
-          <span class="stat-number">18</span>
-          <span class="stat-label">Awards & features</span>
-        </div>
-      </div>
-    </section>
-
-    <section id="about" class="section about">
-      <div class="section-header">
-        <p class="eyebrow">Our philosophy</p>
-        <h2>Photography that feels authentic and intentional.</h2>
-        <p class="section-description">We believe your story deserves to be told with care. Our team blends documentary-style candor with editorial polish to create images you will revisit for a lifetime.</p>
-      </div>
-      <div class="about-grid">
-        <div class="card">
-          <h3>Human connection</h3>
-          <p>We start by listening—learning your vision, your pace, and the details that matter most to you.</p>
-        </div>
-        <div class="card">
-          <h3>Artful direction</h3>
-          <p>Thoughtful posing and gentle guidance help you feel comfortable while keeping the moment natural.</p>
-        </div>
-        <div class="card">
-          <h3>Signature editing</h3>
-          <p>Our refined color grading keeps skin tones true-to-life and scenery luminous, never overdone.</p>
-        </div>
+        <div class="hero-pill">On set now</div>
+        <div class="hero-burst"></div>
       </div>
     </section>
 
     <section id="gallery" class="section gallery">
       <div class="section-header">
-        <p class="eyebrow">Gallery preview</p>
-        <h2>A glimpse into our recent stories.</h2>
-        <p class="section-description">Portraits, weddings, lifestyle, and brand sessions—curated to show the breadth of our craft.</p>
+        <p class="eyebrow">Gallery</p>
+        <h2>Recent frames</h2>
       </div>
       <div class="gallery-grid" role="list">
-        <div class="gallery-card" role="listitem">
-          <div class="image-placeholder">Portrait session</div>
-          <p>Moody studio lighting with crisp, modern styling.</p>
+        <figure class="gallery-card wide" role="listitem">
+          <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=900&q=80" alt="Editorial portrait" loading="lazy">
+          <figcaption>Editorial portraits with crisp light.</figcaption>
+        </figure>
+        <figure class="gallery-card tall" role="listitem">
+          <img src="https://images.unsplash.com/photo-1520854221050-0f4caff449fb?auto=format&fit=crop&w=900&q=80" alt="Wedding photography" loading="lazy">
+          <figcaption>Wedding stories with cinematic tones.</figcaption>
+        </figure>
+        <figure class="gallery-card" role="listitem">
+          <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80" alt="Lifestyle photography" loading="lazy">
+          <figcaption>Everyday moments that feel effortless.</figcaption>
+        </figure>
+        <figure class="gallery-card wide" role="listitem">
+          <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=80" alt="Brand photography" loading="lazy">
+          <figcaption>Brand visuals built to launch fast.</figcaption>
+        </figure>
+        <figure class="gallery-card tall" role="listitem">
+          <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80" alt="Studio portrait" loading="lazy">
+          <figcaption>Studio portraits with sculpted light.</figcaption>
+        </figure>
+        <figure class="gallery-card" role="listitem">
+          <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=900&q=80" alt="Outdoor couple" loading="lazy">
+          <figcaption>Outdoor stories with texture and depth.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="about" class="section about">
+      <div class="section-header">
+        <p class="eyebrow">Approach</p>
+        <h2>Sharp lines. Soft direction.</h2>
+        <p class="section-description">Calm sets. Clean edits.</p>
+      </div>
+      <div class="about-grid">
+        <div class="card">
+          <h3>People-first</h3>
+          <p>Easy pacing, effortless looks.</p>
         </div>
-        <div class="gallery-card" role="listitem">
-          <div class="image-placeholder">Wedding</div>
-          <p>Golden-hour vows framed with elegant candids.</p>
+        <div class="card">
+          <h3>Art-directed</h3>
+          <p>On-brand styling, fast calls.</p>
         </div>
-        <div class="gallery-card" role="listitem">
-          <div class="image-placeholder">Lifestyle</div>
-          <p>Real moments at home, celebrating simple joys.</p>
-        </div>
-        <div class="gallery-card" role="listitem">
-          <div class="image-placeholder">Brand</div>
-          <p>Clean visuals crafted for founders and creatives.</p>
+        <div class="card">
+          <h3>Ready to launch</h3>
+          <p>Fast delivery. Polished color.</p>
         </div>
       </div>
     </section>
 
     <section id="pricing" class="section pricing">
       <div class="section-header">
-        <p class="eyebrow">Pricing highlights</p>
-        <h2>Transparent collections for every story.</h2>
-        <p class="section-description">Choose the experience that fits your day. Each collection includes planning support and artist-led retouching.</p>
+        <p class="eyebrow">Pricing</p>
+        <h2>Three picks. More on tap.</h2>
+        <p class="section-description">Book fast—unlock extra sets when you need them.</p>
       </div>
-      <div class="pricing-grid">
+      <div class="pricing-grid popular-only">
         <div class="pricing-card">
           <div class="badge">Popular</div>
           <h3>Signature</h3>
           <p class="price">$1,200</p>
           <ul>
             <li>3-hour session</li>
-            <li>Location scouting & wardrobe guide</li>
-            <li>40 retouched images</li>
+            <li>Two looks</li>
+            <li>40 edits</li>
           </ul>
-          <a class="button full" href="#contact">Book now</a>
+          <a class="button primary full" href="#contact">Book now</a>
         </div>
         <div class="pricing-card">
           <h3>Mini</h3>
           <p class="price">$550</p>
           <ul>
-            <li>60-minute session</li>
+            <li>60 minutes</li>
             <li>One location</li>
-            <li>15 retouched images</li>
+            <li>15 edits</li>
           </ul>
-          <a class="button ghost full" href="#contact">Check availability</a>
+          <a class="button ghost full" href="#contact">Check date</a>
         </div>
         <div class="pricing-card">
           <h3>Editorial</h3>
           <p class="price">Custom</p>
           <ul>
-            <li>Half-day or full-day production</li>
-            <li>Creative direction & styling</li>
-            <li>Commercial licensing included</li>
+            <li>Half-day or full-day</li>
+            <li>Creative direction</li>
+            <li>Commercial use</li>
           </ul>
           <a class="button ghost full" href="#contact">Start a brief</a>
         </div>
       </div>
+      <div class="pricing-actions">
+        <button class="button link" id="toggle-more-pricing" aria-expanded="false" aria-controls="more-pricing">See more</button>
+      </div>
+      <div id="more-pricing" class="pricing-grid more-pricing" hidden>
+        <div class="pricing-card">
+          <h3>Brand Day</h3>
+          <p class="price">$2,400</p>
+          <ul>
+            <li>Full-day coverage</li>
+            <li>Team + product</li>
+            <li>Launch-ready edits</li>
+          </ul>
+          <a class="button ghost full" href="#contact">Plan it</a>
+        </div>
+        <div class="pricing-card">
+          <h3>Couples</h3>
+          <p class="price">$750</p>
+          <ul>
+            <li>90-minute session</li>
+            <li>Sunset or studio</li>
+            <li>30 retouched images</li>
+          </ul>
+          <a class="button ghost full" href="#contact">Reserve</a>
+        </div>
+        <div class="pricing-card">
+          <h3>Family</h3>
+          <p class="price">$680</p>
+          <ul>
+            <li>Up to 5 people</li>
+            <li>One location</li>
+            <li>Digital gallery</li>
+          </ul>
+          <a class="button ghost full" href="#contact">Hold a spot</a>
+        </div>
+        <div class="pricing-card">
+          <h3>Headshots</h3>
+          <p class="price">$420</p>
+          <ul>
+            <li>45 minutes</li>
+            <li>Studio light</li>
+            <li>6 retouched selects</li>
+          </ul>
+          <a class="button ghost full" href="#contact">Book minis</a>
+        </div>
+      </div>
     </section>
 
-    <section id="contact" class="section contact">
+    <section id="contact" class="section contact contact-section">
       <div class="section-header">
-        <p class="eyebrow">Let’s talk</p>
-        <h2>Ready to craft your session?</h2>
-        <p class="section-description">Tell us what you’re dreaming of—we’ll respond within one business day with next steps.</p>
+        <p class="eyebrow">Contact</p>
+        <h2>Ready to make something beautiful?</h2>
+        <p class="section-description">Tell us what you have in mind—we respond within one business day.</p>
       </div>
-      <div class="contact-grid">
-        <div class="card">
-          <h3>Studio hours</h3>
-          <p>Monday–Friday, 9am–6pm</p>
-          <p>Weekend sessions by appointment.</p>
-        </div>
-        <div class="card">
-          <h3>Reach out</h3>
-          <p>Email: hello@lightframe.studio</p>
-          <p>Phone: (555) 123-4567</p>
-        </div>
-        <div class="card">
+      <div class="contact-layout">
+        <div class="contact-card">
           <h3>Visit</h3>
-          <p>241 Harbor Ave, Suite 3B</p>
-          <p>Portland, OR</p>
+          <p>241 Harbor Ave, Suite 3B<br>Portland, OR</p>
+          <p>Email: hello@lightframe.studio<br>Phone: (555) 123-4567</p>
         </div>
+        <form class="contact-form" aria-label="Send us a message">
+          <h3>Send a note</h3>
+          <div>
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" placeholder="Your name" required>
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="you@example.com" required>
+          </div>
+          <div>
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Session type and timing" required></textarea>
+          </div>
+          <button type="submit" class="button primary full">Send message</button>
+        </form>
       </div>
     </section>
   </main>
 
   <footer class="footer">
     <div class="logo-space">Lightframe</div>
-    <p>Timeless imagery for the moments that deserve to be remembered.</p>
+    <p>Minimal, modern imagery for every milestone.</p>
   </footer>
+
+  <script>
+    const toggle = document.querySelector('.menu-toggle');
+    const nav = document.getElementById('main-nav');
+    const navWrapper = document.querySelector('.nav-wrapper');
+    const morePricingButton = document.getElementById('toggle-more-pricing');
+    const morePricing = document.getElementById('more-pricing');
+
+    document.body.classList.add('js-enabled');
+
+    toggle.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const isOpen = nav.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', isOpen);
+      toggle.querySelector('.menu-label').textContent = isOpen ? 'Close' : 'Menu';
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!navWrapper.contains(event.target) && nav.classList.contains('open')) {
+        nav.classList.remove('open');
+        toggle.setAttribute('aria-expanded', false);
+        toggle.querySelector('.menu-label').textContent = 'Menu';
+      }
+    });
+
+    morePricingButton.addEventListener('click', () => {
+      const isHidden = morePricing.hasAttribute('hidden');
+      if (isHidden) {
+        morePricing.removeAttribute('hidden');
+      } else {
+        morePricing.setAttribute('hidden', '');
+      }
+      morePricingButton.setAttribute('aria-expanded', isHidden);
+      morePricingButton.textContent = isHidden ? 'Hide extras' : 'See more';
+    });
+  </script>
 </body>
 </html>
